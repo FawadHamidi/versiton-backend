@@ -1,6 +1,6 @@
-require('dotenv').config();
 
 const express = require('express');
+
 const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -12,6 +12,7 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const uploadMiddleware = multer({dest: 'uploads/'})
 const fs = require('fs');
+const dotenv = require('dotenv');
 
 const { info } = require('console');
 const salt = bcrypt.genSaltSync(10);
@@ -23,6 +24,7 @@ app.use('/uploads', express.static(__dirname+'/uploads'));
 app.get('/', (req, res) => {
   res.send('Hello to API')
 })
+dotenv.config();
 mongoose.connect(process.env.DATABASE_CONNECTION)
 
 app.post('/register', async(req, res) => {
@@ -145,6 +147,8 @@ app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT);
+
+module.exports = app;
 
 //mongodb+srv://fawadhamidy41:VllQOcMaY3ukPlYx@cluster0.uyje8ql.mongodb.net/?retryWrites=true&w=majority
 //S0j1UDHBnYNUiJUH
